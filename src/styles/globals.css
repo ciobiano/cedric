@@ -35,6 +35,8 @@
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
 
+  --color-offwhite: #f0eee6;
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -42,6 +44,7 @@
   --font-sans:
     var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
@@ -136,6 +139,10 @@
   @apply border border-red-500;
 }
 
+@utility font-heading {
+  font-family: var(--font-heading);
+}
+
 @utility horizontal {
   @apply flex flex-row;
 }
@@ -156,6 +163,10 @@
   --radius: 0.5rem;
   --header-height: 60px;
   --container-max-width: 1200px;
+  --off-white: #f0eee6;
+  --off-white-dim: #f0eee680;
+  --off-white-muted: #f0eee660;
+  --dark-surface: #1a1a1a;
   --bg-primary: #f5f4ed;
   --bg-secondary: #141413;
   --bg-tertiary: #0f0f0f;

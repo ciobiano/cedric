@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
+import { Space_Grotesk } from "next/font/google";
 import { type Metadata } from "next";
 import { Toaster } from "@/components/ui/toaster";
 import { TRPCReactProvider } from "@/trpc/react";
@@ -17,6 +18,12 @@ import { hotkeys } from "@/config/hotkeys";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { APP_NAME, APP_DESCRIPTION } from "@/config/config";
 import { LevaPanel } from "@/components/dev/LevaPanel";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: APP_NAME,
@@ -39,7 +46,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable}`}
+      className={`${GeistSans.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>

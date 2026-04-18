@@ -1,60 +1,88 @@
 "use client";
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { APP_NAME } from "@/config/config";
 import LandingSectionTitle from "./LandingSectionTitle";
 
-interface FAQItemProps {
-  question: string;
-  answer: string;
-  isOpen: boolean;
-  toggleOpen: () => void;
-  index: number;
-}
+const faqItems = [
+  {
+    question: "How does the free trial work?",
+    answer: `Start with a 14-day free trial with full access to all features. No credit card required. You can explore everything ${APP_NAME} has to offer before deciding.`,
+  },
+  {
+    question: "Can I cancel anytime?",
+    answer:
+      "Absolutely. Cancel your subscription at any time with no questions asked. No hidden fees or penalties.",
+  },
+  {
+    question: "Is my data secure?",
+    answer: `${APP_NAME} uses bank-level 256-bit encryption and is SOC 2 compliant. We perform regular security audits and follow best practices for data protection.`,
+  },
+  {
+    question: "What support do you offer?",
+    answer:
+      "All plans include access to our comprehensive documentation and community forums. Pro plans get priority email support, and Enterprise plans include dedicated support with SLAs.",
+  },
+  {
+    question: "Do you offer discounts for annual plans?",
+    answer:
+      "Yes! Annual plans come with a 20% discount. That's effectively 2 months free when you pay yearly.",
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
 
 function FAQItem({
   question,
   answer,
   isOpen,
   toggleOpen,
-  index,
-}: FAQItemProps) {
+}: {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  toggleOpen: () => void;
+}) {
   return (
     <motion.div
-      className="border-b border-gray-200 py-5 dark:border-gray-700"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.3, delay: index * 0.1 }}
+      variants={itemVariants}
+      className="border-b border-border last:border-0"
     >
       <button
-        className="flex w-full items-center justify-between text-left"
+        className="flex w-full items-center justify-between py-5 text-left"
         onClick={toggleOpen}
       >
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-          {question}
-        </h3>
+        <span className="font-medium">{question}</span>
         <motion.span
-          className="ml-6 flex-shrink-0"
+          className="ml-4 flex-shrink-0 text-muted-foreground"
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
-          <ChevronDown className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+          <ChevronDown className="h-5 w-5" />
         </motion.span>
       </button>
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="mt-3 pr-12"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
           >
-            <p className="text-base text-gray-600 dark:text-gray-400">
-              {answer}
-            </p>
+            <p className="pb-5 text-sm text-muted-foreground">{answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -63,62 +91,30 @@ function FAQItem({
 }
 
 export default function LandingFAQ() {
-  const faqItems = [
-    {
-      question: `How much does ${APP_NAME} cost?`,
-      answer:
-        "We offer flexible pricing plans starting at $29/month. Enterprise plans with custom features are also available. Contact our sales team for more details.",
-    },
-    {
-      question: "Do you offer a free trial?",
-      answer:
-        "Yes, we offer a 14-day free trial with full access to all features. No credit card required to get started.",
-    },
-    {
-      question: "How secure is my data?",
-      answer: `${APP_NAME} implements bank-level security measures including 256-bit encryption, regular security audits, and compliance with SOC 2 and GDPR requirements.`,
-    },
-    {
-      question: "Can I cancel my subscription anytime?",
-      answer:
-        "Absolutely. You can cancel your subscription at any time with no questions asked and no hidden fees.",
-    },
-    {
-      question: "What kind of support do you offer?",
-      answer:
-        "We provide 24/7 support via email, live chat, and phone for all paying customers. Free users have access to our comprehensive knowledge base and community forums.",
-    },
-  ];
-
   const [openIndex, setOpenIndex] = useState(0);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(index === openIndex ? -1 : index);
-  };
 
   return (
     <section className="w-full py-24">
       <div className="container mx-auto px-4">
         <LandingSectionTitle
           title="Frequently Asked Questions"
-          description={`Find answers to common questions about ${APP_NAME}, pricing, and support.`}
+          description={`Everything you need to know about ${APP_NAME}.`}
         />
 
         <motion.div
-          className="mx-auto max-w-3xl"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          className="mx-auto max-w-2xl"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
           {faqItems.map((item, index) => (
             <FAQItem
               key={index}
-              index={index}
               question={item.question}
               answer={item.answer}
               isOpen={index === openIndex}
-              toggleOpen={() => toggleFAQ(index)}
+              toggleOpen={() => setOpenIndex(index === openIndex ? -1 : index)}
             />
           ))}
         </motion.div>

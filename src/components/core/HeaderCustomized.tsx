@@ -8,9 +8,8 @@ type HeaderCustomizedProps = Omit<PageHeaderProps, "height" | "classNames"> & {
 
 /*
   a variant of PageHeader customized for this particular app.
-  it starts with no bg and when the user scrolls, it adds a bg and shadow accordingly.
-  it also respects the container-max-width config from our globals.css
-  feel free to change as you like.
+  it stays transparent at all times for the landing page aesthetic.
+  it respects the container-max-width config from our globals.css.
 */
 export function HeaderCustomized({
   classNames,
@@ -22,8 +21,7 @@ export function HeaderCustomized({
       height={HEADER_HEIGHT}
       classNames={{
         root: cn(
-          "px-0 bg-none fixed transition-all duration-300 backdrop-blur-[0px]",
-          "data-[scrolled=true]:bg-background/50 data-[scrolled=true]:shadow-xs dark:data-[scrolled=true]:shadow-none dark:data-[scrolled=true]:bg-[rgb(19_17_28_/_90%)] data-[scrolled=true]:backdrop-blur-lg",
+          "px-0 bg-transparent fixed transition-all duration-300",
           classNames?.root,
         ),
         container: cn(

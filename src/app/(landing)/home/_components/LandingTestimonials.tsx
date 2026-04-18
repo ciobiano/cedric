@@ -7,86 +7,73 @@ import { motion } from "framer-motion";
 import { APP_NAME } from "@/config/config";
 import LandingSectionTitle from "./LandingSectionTitle";
 
-// Animated stars component
-const TestimonialStars = ({ count }: { count: number }) => {
+const avatars = ["sarah", "mark", "jessica"].map((seed) =>
+  createAvatar(lorelei, {
+    seed,
+    backgroundColor: ["e8e4dc", "d4cfc4", "ebe7de"],
+  }).toDataUri(),
+);
+
+const testimonials = [
+  {
+    avatar: avatars[0] || "",
+    name: "Sarah Johnson",
+    role: "CEO, TechStart",
+    content: `${APP_NAME} transformed our workflow. Team productivity up 40% in just 2 months. The ROI has been incredible.`,
+    stars: 5,
+  },
+  {
+    avatar: avatars[1] || "",
+    name: "Mark Thompson",
+    role: "Marketing Director",
+    content: `Finally, a tool that actually works. Easy to use but powerful enough for enterprise needs. Best decision we made this year.`,
+    stars: 5,
+  },
+  {
+    avatar: avatars[2] || "",
+    name: "Jessica Williams",
+    role: "Product Designer",
+    content: "The support team is exceptional. Every update makes the product better. Absolutely worth the investment.",
+    stars: 5,
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
+function StarRating({ count }: { count: number }) {
   return (
-    <div className="flex">
+    <div className="flex gap-0.5">
       {Array(count)
         .fill(0)
         .map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 10, scale: 0.5 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: i * 0.1, duration: 0.3 }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <Star className="h-4 w-4 fill-violet-400 text-violet-400" />
-          </motion.div>
+          <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
         ))}
     </div>
   );
-};
+}
 
 export default function LandingTestimonials() {
-  // Generate avatar data URIs with DiceBear
-  const avatars = ["sarah", "mark", "jessica"].map((seed) =>
-    createAvatar(lorelei, {
-      seed,
-      backgroundColor: ["b6e3f4", "c0aede", "d1d4f9"],
-    }).toDataUri(),
-  );
-
-  const testimonials = [
-    {
-      avatar: avatars[0] || "",
-      name: "Sarah Johnson",
-      role: "CEO, TechStart",
-      content: `${APP_NAME} has completely transformed how we operate. The ROI has been incredible, and our team productivity is up by 40%.`,
-      stars: 5,
-    },
-    {
-      avatar: avatars[1] || "",
-      name: "Mark Thompson",
-      role: "Marketing Director",
-      content: `I've tried many similar tools, but nothing compares to the ease of use and powerful features ${APP_NAME} offers.`,
-      stars: 5,
-    },
-    {
-      avatar: avatars[2] || "",
-      name: "Jessica Williams",
-      role: "Product Designer",
-      content:
-        "The customer support is exceptional, and the platform keeps getting better with every update. Absolutely worth the investment.",
-      stars: 4,
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
   return (
-    <section className="w-full py-24">
+    <section className="w-full py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
         <LandingSectionTitle
-          title="What Our Clients Say"
-          description={`Don't just take our word for it. Here's what our customers have to say about their experience with ${APP_NAME}.`}
+          title="Loved by teams everywhere"
+          description={`See what our customers have to say about ${APP_NAME}.`}
         />
 
         <motion.div
-          className="grid grid-cols-1 gap-8 md:grid-cols-3"
+          className="grid grid-cols-1 gap-6 md:grid-cols-3"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -96,19 +83,11 @@ export default function LandingTestimonials() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="relative flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white/50 p-8 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-800/50"
-              whileHover={{
-                y: -10,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-                transition: { duration: 0.3 },
-              }}
+              className="flex flex-col rounded-xl border border-border bg-card p-6 transition-all hover:shadow-lg"
+              whileHover={{ y: -4 }}
             >
-              <motion.div
-                className="mb-6 flex items-center"
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="relative mr-4 h-12 w-12 overflow-hidden rounded-full">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                   <Image
                     src={testimonial.avatar}
                     alt={testimonial.name}
@@ -117,20 +96,18 @@ export default function LandingTestimonials() {
                   />
                 </div>
                 <div>
-                  <h4 className="font-semibold">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <h4 className="font-medium">{testimonial.name}</h4>
+                  <p className="text-sm text-muted-foreground">
                     {testimonial.role}
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
-              <p className="mb-6 flex-grow text-gray-600 italic dark:text-gray-300">
+              <p className="mb-4 flex-grow text-sm text-muted-foreground italic">
                 "{testimonial.content}"
               </p>
 
-              <div className="flex items-center">
-                <TestimonialStars count={testimonial.stars} />
-              </div>
+              <StarRating count={testimonial.stars} />
             </motion.div>
           ))}
         </motion.div>

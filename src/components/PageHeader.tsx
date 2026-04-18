@@ -83,7 +83,7 @@ export const PageHeader: ReactFC<PageHeaderProps> = ({
         <div className={cn("flex-1", classNames?.leftSide)}>{leftSide}</div>
 
         {middle && (
-          <div className={cn("flex-1 text-center", classNames?.middle)}>
+          <div className={cn("flex-1 overflow-visible", classNames?.middle)}>
             {middle}
           </div>
         )}

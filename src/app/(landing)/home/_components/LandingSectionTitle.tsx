@@ -14,16 +14,14 @@ export default function LandingSectionTitle({
 }: LandingSectionTitleProps) {
   return (
     <motion.div
-      className={`mb-16 text-center ${className}`}
+      className={`mb-12 text-center ${className}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.4 }}
     >
-      <h2 className="mb-4 text-3xl font-bold md:text-4xl">{title}</h2>
-      <p className="mx-auto max-w-2xl text-gray-600 dark:text-gray-400">
-        {description}
-      </p>
+      <h2 className="font-heading mb-3 text-2xl font-semibold md:text-3xl">{title}</h2>
+      <p className="mx-auto max-w-xl text-muted-foreground">{description}</p>
     </motion.div>
   );
 }
