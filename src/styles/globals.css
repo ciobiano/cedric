@@ -171,9 +171,9 @@
   --bg-secondary: #141413;
   --bg-tertiary: #0f0f0f;
   --text-muted: #7e7d76;
-  --background: oklch(0.97 0.01 80);
+  --background: oklch(0.98 0.01 95);
   --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(0.97 0.01 80);
+  --card: oklch(0.98 0.01 95);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(0.97 0.01 80);
   --popover-foreground: oklch(0.141 0.005 285.823);
